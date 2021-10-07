@@ -2,12 +2,31 @@
   import { onMount } from "svelte";
   import Todos from "./Todos.svelte";
   import AddTodo from "./AddTodo.svelte";
+  import FilterTodos from "./FilterTodos.svelte";
   import { todo } from "../../declarations/todo";
   import type { Todo } from "../../declarations/todo/todo.did";
   import { v1 as uuidv1 } from "uuid";
 
   let todos: Todo[] = [];
   let busy: boolean = false;
+  let all = true;
+  let active = false;
+  let completed = false;
+
+  $: filteredTodos = todos.filter((t) => {
+    return all
+      ? true
+      : completed
+      ? t.done === true
+      : active
+      ? t.done === false
+      : false;
+  });
+
+  $: {
+    console.log(all, active, completed);
+    console.log(filteredTodos);
+  }
 
   onMount(loadTodos);
 
@@ -52,7 +71,12 @@
 
   <div class="container">
     <AddTodo {busy} on:addTodo={addTodo} />
-    <Todos on:deleteTodo={deleteTodo} on:completeTodo={completeTodo} {todos} />
+    <Todos
+      on:deleteTodo={deleteTodo}
+      on:completeTodo={completeTodo}
+      todos={filteredTodos}
+    />
+    <FilterTodos bind:all bind:active bind:completed />
   </div>
 </main>
 
