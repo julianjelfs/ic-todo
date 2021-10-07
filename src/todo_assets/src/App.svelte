@@ -21,29 +21,39 @@
   }
 
   function deleteTodo(ev: CustomEvent<Todo>) {
-    busy = true;
-    todo.delete_todo(ev.detail.id).then(loadTodos);
+    todos = todos.filter((t) => t.id !== ev.detail.id);
+    todo.delete_todo(ev.detail.id).catch((err) => {
+      console.log("delete failed - reloading todos");
+      loadTodos();
+    });
   }
 
   function completeTodo(ev: CustomEvent<Todo>) {
-    busy = true;
+    todos = todos.map((t) =>
+      t.id === ev.detail.id ? { ...t, done: !t.done } : t
+    );
     todo
       .update_todo({
         ...ev.detail,
         done: !ev.detail.done,
       })
-      .then(loadTodos);
+      .catch((err) => {
+        console.log("update failed - reloading todos");
+        loadTodos();
+      });
   }
 
   function addTodo(ev: CustomEvent<string>) {
-    busy = true;
-    todo
-      .add_todo({
-        id: newTodoId(),
-        description: ev.detail,
-        done: false,
-      })
-      .then(loadTodos);
+    const add = {
+      id: newTodoId(),
+      description: ev.detail,
+      done: false,
+    };
+    todos = [...todos, add];
+    todo.add_todo(add).catch((err) => {
+      console.log("add failed - reloading todos");
+      loadTodos();
+    });
   }
 </script>
 
