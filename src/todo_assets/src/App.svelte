@@ -23,11 +23,6 @@
       : false;
   });
 
-  $: {
-    console.log(all, active, completed);
-    console.log(filteredTodos);
-  }
-
   onMount(loadTodos);
 
   function loadTodos() {
