@@ -1,20 +1,15 @@
 {
   "canisters": {
-    "demo": {
-      "main": "src/demo/main.mo",
+    "todo": {
+      "main": "src/todo/main.mo",
       "type": "motoko"
     },
-    "demo_assets": {
-      "dependencies": [
-        "demo"
-      ],
+    "todo_assets": {
+      "dependencies": ["todo"],
       "frontend": {
-        "entrypoint": "src/demo_assets/src/index.html"
+        "entrypoint": "src/todo_assets/public/index.html"
       },
-      "source": [
-        "src/demo_assets/assets",
-        "dist/demo_assets/"
-      ],
+      "source": ["src/todo_assets/public"],
       "type": "assets"
     }
   },
