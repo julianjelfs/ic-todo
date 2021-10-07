@@ -1,7 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import App from "./App.svelte";
-  import Todos from "./Todos.svelte";
 
   export let busy: boolean;
 
