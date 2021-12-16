@@ -11,9 +11,8 @@
   onMount(() => inp.focus());
 
   function addTodo() {
-    if (!busy) {
-      dispatch("addTodo", todoText);
-    }
+    dispatch("addTodo", todoText);
+    todoText = "";
   }
 </script>
 
